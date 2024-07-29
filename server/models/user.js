@@ -23,6 +23,10 @@ const userSchema = mongoose.Schema({
     required: true,
     type: String,
   },
+  id:{
+    required :false,
+    type:String,
+  }
 }); 
 
 const User = mongoose.model("User", userSchema);

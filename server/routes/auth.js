@@ -84,4 +84,92 @@ authRouter.get("/", auth, async (req, res) => {
   res.json({ ...user._doc, token: req.token });
 });
 
+authRouter.post('/api/update', async (req, res) => {
+  const { name, password, email,id } = req.body;
+  console.log( name, password, email,id )
+  try {
+    const user = await User.findOne({ _id: id });
+
+    if(!id){
+      console.log("hi");
+      return res.status(404).send("please enter id");
+    }
+    if (!user) {
+      console.log(id);
+      return res.status(404).send('User not found');
+    }
+
+    if (name) {
+      console.log(name);
+      user.name = name;
+    }
+
+    if (password) {
+      console.log(password);
+      const salt = await bcryptjs.genSalt(10);
+      user.password = await bcryptjs.hash(password, salt);
+    }
+
+    if (email) {
+      console.log(email);
+      user.email = email;
+    }
+
+    await user.save();
+   return res.send('Login details updated');
+  } catch (error) {
+    res.status(500).json({error:error.message})
+  }
+});
+/*
+authRouter.delete('/api/delete', async (req, res) => {
+  const { _id } = req.body;
+
+  if (!_id) {
+    console.log('1');
+    return res.status(400).send('Please provide an ID');
+  }
+
+  try {
+    const user = await User.findByIdAndDelete(_id);
+    console.log('2');
+
+    if (!user) {
+      console.log('3');
+
+      return res.status(404).send('User not found');
+    }
+    console.log('4');
+
+    res.send('User deleted successfully');
+  } catch (error) {
+    console.log('5');
+    res.status(500).send('Server error');
+  }
+});*/
+authRouter.delete('/api/delete', async (req, res) => {
+  const { _id } = req.body;
+
+  if (!_id) {
+    console.log('No ID provided');
+    return res.status(400).send('Please provide an ID');
+  }
+
+  try {
+    console.log('Attempting to delete user with ID:', _id);
+    const user = await User.findByIdAndDelete(_id);
+
+    if (!user) {
+      console.log('User with ID', _id, 'not found');
+      return res.status(404).send('User not found');
+    }
+
+    console.log('User with ID', _id, 'deleted successfully');
+    res.send('User deleted successfully');
+  } catch (error) {
+    console.error('Server error:', error);
+    res.status(500).send('Server error');
+  }
+});
+
 module.exports = authRouter;

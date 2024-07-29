@@ -20,6 +20,7 @@ class User {
       'email': email,
       'token': token,
       'password': password,
+      //'id':id,
     };
   }
 

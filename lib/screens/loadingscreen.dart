@@ -6,7 +6,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:http/http.dart';
 
-/*class loadingscreen extends StatefulWidget {
+class loadingscreen extends StatefulWidget {
   //var l;
   //loadingscreen({@required this.l});
 
@@ -30,28 +30,6 @@ class _loadingscreenState extends State<loadingscreen>
     homescreen();
 
   }
-/*
-  void getcategorydata() async {
-    Response r1 = await get(Uri.parse(
-        "https://www.googleapis.com/books/v1/volumes?q=subject:thriller&download=epub&orderBy=newest&key=AIzaSyAqxw3nnCxwNQXRmXb-ZFi8FTNyhz6kwGA"));
-    Response r2 = await get(Uri.parse(
-        "https://www.googleapis.com/books/v1/volumes?q=subject:fantasy&download=epub&orderBy=newest&key=AIzaSyAqxw3nnCxwNQXRmXb-ZFi8FTNyhz6kwGA"));
-    Response r3 = await get(Uri.parse(
-        "https://www.googleapis.com/books/v1/volumes?q=subject:horror&download=epub&orderBy=newest&key=AIzaSyAqxw3nnCxwNQXRmXb-ZFi8FTNyhz6kwGA"));
-    Response r4 = await get(Uri.parse(
-        "https://www.googleapis.com/books/v1/volumes?q=subject:health&download=epub&orderBy=newest&key=AIzaSyAqxw3nnCxwNQXRmXb-ZFi8FTNyhz6kwGA"));
-    c1 = jsonDecode(r1.body);
-    c2 = jsonDecode(r2.body);
-    c3 = jsonDecode(r3.body);
-    c4 = jsonDecode(r4.body);
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return homescreen(c1: c1, c2: c2, c3: c3, c4: c4);
-    }));
-  }
-  homescreen() {
-    // TODO: implement homescreen
-    throw UnimplementedError();
-  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -70,30 +48,5 @@ class _loadingscreenState extends State<loadingscreen>
       ),
     ));
   }
-}*/
-class LoadingScreen extends StatefulWidget {
-  @override
-  _LoadingScreenState createState() => _LoadingScreenState();
 }
 
-class _LoadingScreenState extends State<LoadingScreen> {
-  @override
-  void initState() {
-    super.initState();
-    // Simulate a delay for the loading screen
-    Future.delayed(Duration(seconds: 3), () {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => homescreen()),
-      );
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
-  }
-}

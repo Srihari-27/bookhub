@@ -34,6 +34,7 @@ class MyApp extends StatelessWidget {
         builder: (context, userProvider, child) {
           if (userProvider.user.token.isEmpty) {
             return  SignupScreen();
+            //print('hello');
           } else {
             return  HomeScreen();
           }
@@ -80,3 +81,6 @@ Column(
           ),
         ],
       ),*/
+
+
+

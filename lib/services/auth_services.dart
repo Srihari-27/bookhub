@@ -161,4 +161,103 @@ class AuthService {
       );
     }
   }
+
+  Future<void> update1({
+    required BuildContext context,
+    required String email,
+    required String password,
+    required String name,
+    required String id,
+    //required String newname,
+  }) async {
+    try {
+      User user = User(
+        id: '',
+        name: name,
+        password: password,
+        email: email,
+        token: '',
+      );
+      //print('connected with signup user');
+/*
+      http.Response res = await http.post(
+        //print('connected with signup user'),
+        //http://localhost:3000
+        Uri.parse('http://10.0.2.2:3000/api/signup'),
+        //Uri.parse('${Constants.uri}/api/signup'),
+        body: user.toJson(),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        
+      );
+      print('connected with signup user3');
+      */
+      final res = await http.post(
+          Uri.parse('http://10.0.2.2:3000/api/update'),
+          headers: <String, String>{
+                 'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'name': name,
+        //'newUsername': newname,
+        'password':password,
+        'email': email,
+        'id':id,
+
+      }),
+    );
+      
+
+      if (context.mounted) {
+        //print("connected with signup user2");
+        httpErrorHandle(
+          response: res,
+          context: context,
+          onSuccess: () {
+            showSnackBar(
+              context,
+              'Account updated! Login with the same credentials!',
+            );
+          },
+        );
+      }
+    } catch (e) {
+      if (context.mounted) {
+        showSnackBar(context, e.toString());
+      }
+    }
+  }
+
+  Future<void> delete1({
+    required BuildContext context,
+    required String id
+    }) async {
+     // User user =User()
+    //final String _id = _idController.text;
+
+    if (id.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Please enter an ID')),
+      );
+      return;
+    }
+
+    final url = 'http://10.0.2.2:3000/api/delete'; // Replace with your server IP
+    final response = await http.delete(
+      Uri.parse(url),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'_id': id}),
+    );
+
+    if (response.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('User deleted successfully')),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to delete user')),
+      );
+    }
+  }
 }

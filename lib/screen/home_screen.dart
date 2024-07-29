@@ -1,11 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:bookhub/providers/users_provider.dart';
 import 'package:bookhub/services/auth_services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:bookhub/custom_textfield.dart';
 
-class HomeScreen extends StatelessWidget {
+
+String a ='';
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  //final TextEditingController newnameController = TextEditingController();
+  final AuthService authService = AuthService();
+
+  void update1(String a) {
+    //print('success in frontend');
+    authService.update1(
+      //print('success in frontend login'),
+
+      context: context,
+      email: emailController.text,
+      password: passwordController.text,
+      name: nameController.text,
+      id: a,
+      //newname:a,
+    );
+  }
+  void delete1(String a){
+    authService.delete1(
+      context:context,
+      id:a,
+      );
+  }
   void signOutUser(BuildContext context) {
     AuthService().signOut(context);
   }
@@ -13,15 +48,57 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
-
+    
     return Scaffold(
       body: 
       Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(user.id),
-          Text(user.email),
-          Text(user.name),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+            child: CustomTextField(
+              controller: nameController,
+              hintText: user.name,
+            ),
+          ),
+          const SizedBox(height: 20),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+            
+            child: CustomTextField(
+              controller: emailController,
+              hintText: user.email,
+            ),
+          ),
+          const SizedBox(height: 20),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+            child: CustomTextField(
+              controller: passwordController,
+              hintText: 'enter password',
+            ),
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed:(){
+              String a=user.id;
+              update1(a);
+              
+            },
+            child:Text('Update'),
+          ),
+          ElevatedButton(
+            onPressed:(){
+               String a=user.id;
+               delete1(a);
+               signOutUser(context);
+            },
+            child:Text('Delete'),
+          ),
+
+          //Text(user.id),
+          // Text(user.email),
+          // Text(user.name),
           ElevatedButton(
             onPressed: () => signOutUser(context),
             style: ButtonStyle(

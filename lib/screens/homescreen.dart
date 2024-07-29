@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:bookhub/screen/home_screen.dart';
 
 class homescreen extends StatefulWidget {
  
@@ -189,6 +190,10 @@ class _homescreenState extends State<homescreen> {
                    ),
                    ElevatedButton(
                        onPressed: () {
+                        Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                                return HomeScreen();
+                              }));
 
                        },
                        child: Icon(Icons.circle, color: Color.fromARGB(255, 152, 166, 177),),
