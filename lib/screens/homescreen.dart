@@ -75,21 +75,7 @@ class _homescreenState extends State<homescreen> {
                                   height: 70,
 
                       
-                                  /*decoration: BoxDecoration(
-                                      shape: BoxShape.rectangle,
-                                      borderRadius: BorderRadius.circular(8),
-                                      border: Border.all(
-                                          color: Color.fromARGB(255, 51, 51, 51).withOpacity(0.5),
-                                      ),
-                                      boxShadow: [
-                                            BoxShadow(
-                                              offset: Offset(0, 0),
-                                              color: Color(0xFFB7B7B7),
-                                              spreadRadius: 3,
-                                              blurRadius: 8,
-                                            )
-                                       ],
-                                  ),*/
+                                  
                                  
                                   child:Center(
                                     child: Text('Home',

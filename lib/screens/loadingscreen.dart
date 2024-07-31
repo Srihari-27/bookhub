@@ -16,17 +16,13 @@ class loadingscreen extends StatefulWidget {
 
 class _loadingscreenState extends State<loadingscreen>
     with SingleTickerProviderStateMixin {
-  /*late AnimationController c;
-  var c1;
-  var c2;
-  var c3;
-  var c4;*/
+  
 
   @override
   void initState() {
-    // TODO: implement initState
+    
     super.initState();
-    //getcategorydata();
+    
     homescreen();
 
   }

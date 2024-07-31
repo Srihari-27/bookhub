@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:bookhub/custom_textfield.dart';
 import 'package:bookhub/services/auth_services.dart';
-
+import 'package:bookhub/screen/recovery.dart';
+  
+  
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -72,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const LoginScreen(),
+                  builder: (context) => const Recovery(),
                 ),
               );
             },

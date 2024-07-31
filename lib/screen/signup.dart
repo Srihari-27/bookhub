@@ -14,12 +14,15 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
+  final TextEditingController forgotpassController = TextEditingController();
   final AuthService authService = AuthService();
 
   void signupUser() {
     print('success in frontend');
     authService.signUpUser(
-      //print('success in frontend login'),
+      
+      forgotpass:forgotpassController.text,
+
       context: context,
       email: emailController.text,
       password: passwordController.text,
@@ -62,6 +65,15 @@ class _SignupScreenState extends State<SignupScreen> {
               hintText: 'Enter your password',
             ),
           ),
+          const SizedBox(height: 20),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+            child: CustomTextField(
+              controller: forgotpassController,
+              hintText: 'Enter your recovery id',
+            ),
+          ),
+          
           const SizedBox(height: 40),
           ElevatedButton(
             onPressed: signupUser,
@@ -79,7 +91,8 @@ class _SignupScreenState extends State<SignupScreen> {
               style: TextStyle(color: Colors.white, fontSize: 16),
             ),
           ),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+          //SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+          SizedBox(height: 5),
           TextButton(
             onPressed: () {
               Navigator.push(

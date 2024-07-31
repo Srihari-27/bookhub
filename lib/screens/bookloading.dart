@@ -20,7 +20,7 @@ class _bookloadingState extends State<bookloading> {
   @override
   void initState() {
     print(widget.c);
-    // TODO: implement initState
+    
     super.initState();
     getdata();
   }

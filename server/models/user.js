@@ -26,7 +26,14 @@ const userSchema = mongoose.Schema({
   id:{
     required :false,
     type:String,
-  }
+  },
+  collections:Array,
+  liked:Array,
+  forgotpass:String,
+  picture1:String,
+  bought : Array
+  //pic:String,
+
 }); 
 
 const User = mongoose.model("User", userSchema);

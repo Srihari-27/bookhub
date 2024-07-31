@@ -4,29 +4,27 @@ const User = require("../models/user");
 const authRouter = express.Router();
 const jwt = require("jsonwebtoken");
 const auth = require("../middleware/auth");
-//const cors = require('cors');
-//const bodyParser = require('body-parser');
 
-// const app = express();
-
-// app.use(cors());
-// app.use(bodyParser.json());
 
 
 authRouter.post("/api/signup", async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    console.log('1');
+    const { name, email, password ,forgotpass} = req.body;
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
+      console.log('2');
       return res
         .status(400)
         .json({ msg: "User with same email already exists!" });
     }
 
     const hashedPassword = await bcryptjs.hash(password, 8);
+    console.log('3');
 
     let user = new User({
+      forgotpass,
       email,
       password: hashedPassword,
       name,
@@ -34,7 +32,7 @@ authRouter.post("/api/signup", async (req, res) => {
     user = await user.save();
     res.json(user);
   } catch (e) {
-    res.status(500).json({ error: e.message });
+    res.status(500).json({error:error.message });
   }
 });
 
@@ -78,7 +76,7 @@ authRouter.post("/tokenIsValid", async (req, res) => {
   }
 });
 
-// get user data
+
 authRouter.get("/", auth, async (req, res) => {
   const user = await User.findById(req.user);
   res.json({ ...user._doc, token: req.token });
@@ -171,5 +169,28 @@ authRouter.delete('/api/delete', async (req, res) => {
     res.status(500).send('Server error');
   }
 });
+
+authRouter.post("/api/forgot", async (req, res) => {
+  try {
+    const { email, forgotpass } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ msg: "User with this email does not exist!" });
+    }
+
+    
+    const isMatch =forgotpass;
+    if (!isMatch) {
+      return res.status(400).json({ msg: "Incorrect recovery password." });
+    }
+
+    const token = jwt.sign({ id: user._id }, "passwordKey");
+    res.json({ token, ...user._doc });
+  } catch (e) {
+    console.error('Error in /api/forgot:', e);
+    res.status(500).json({ error: e.message });
+  }
+})
 
 module.exports = authRouter;

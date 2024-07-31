@@ -12,7 +12,7 @@ app.use(express.json());
 
 
 mongoose
-  .connect("mongodb://localhost:27017/bookhub")
+  .connect("mongodb://localhost:27017/bookhub_main2")
   .then(() => {
     console.log("Connection Successful");
   })

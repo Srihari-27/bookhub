@@ -1,4 +1,5 @@
 import 'dart:convert';
+//import 'dart:ffi';
 
 class User {
   final String id;
@@ -6,12 +7,10 @@ class User {
   final String email;
   final String token;
   final String password;
+  final String forgotpass;
   User({
-    required this.id,
-    required this.name,
-    required this.email,
-    required this.token,
-    required this.password,
+    required this.forgotpass, required this.id, required this.name, required this.email, required this.token, required this.password,
+    
   });
 
   Map<String, dynamic> toMap() {
@@ -21,6 +20,8 @@ class User {
       'token': token,
       'password': password,
       //'id':id,
+      'forgotpass': forgotpass,
+      
     };
   }
 
@@ -31,6 +32,8 @@ class User {
       email: map['email'] ?? '',
       token: map['token'] ?? '',
       password: map['password'] ?? '',
+      forgotpass: map['forgotpass'] ?? ''
+
     );
   }
 

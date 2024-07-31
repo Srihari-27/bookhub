@@ -18,6 +18,7 @@ class AuthService {
     required String email,
     required String password,
     required String name,
+    required String forgotpass,
   }) async {
     try {
       User user = User(
@@ -26,6 +27,7 @@ class AuthService {
         password: password,
         email: email,
         token: '',
+        forgotpass: forgotpass
       );
       print('connected with signup user');
 
@@ -172,27 +174,14 @@ class AuthService {
   }) async {
     try {
       User user = User(
+        forgotpass: '',
         id: '',
         name: name,
         password: password,
         email: email,
         token: '',
       );
-      //print('connected with signup user');
-/*
-      http.Response res = await http.post(
-        //print('connected with signup user'),
-        //http://localhost:3000
-        Uri.parse('http://10.0.2.2:3000/api/signup'),
-        //Uri.parse('${Constants.uri}/api/signup'),
-        body: user.toJson(),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        
-      );
-      print('connected with signup user3');
-      */
+      
       final res = await http.post(
           Uri.parse('http://10.0.2.2:3000/api/update'),
           headers: <String, String>{
@@ -258,6 +247,50 @@ class AuthService {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to delete user')),
       );
+    }
+  }
+  Future<void> recoverypass({
+    required BuildContext context,
+    required String email,
+    required String forgotpass,
+  }) async {
+    try {
+      var userProvider = Provider.of<UserProvider>(context, listen: false);
+      http.Response res = await http.post(
+        //http://10.0.2.2:3000/api/forgot
+        Uri.parse('http://10.0.2.2:3000/api/forgot'),
+        body: jsonEncode({
+          'email': email,
+          'forgotpass': forgotpass,
+        }),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+
+      if (context.mounted) {
+        httpErrorHandle(
+          response: res,
+          context: context,
+          onSuccess: () async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            userProvider.setUser(res.body);
+            await prefs.setString('x-auth-token', jsonDecode(res.body)['token']);
+            if (context.mounted) {
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                  builder: (context) => HomeScreen(),
+                ),
+                (route) => false,
+              );
+            }
+          },
+        );
+      }
+    } catch (e) {
+      if (context.mounted) {
+        showSnackBar(context, e.toString());
+      }
     }
   }
 }

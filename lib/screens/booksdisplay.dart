@@ -19,22 +19,19 @@ class bookdisplay extends StatefulWidget {
 }
 
 class _bookdisplayState extends State<bookdisplay> {
-  var pagecount = "Not available";
   var desc = "Not available";
-  var pubdate = "Not available";
-  var lang = "Not available";
-  var rating = "Not available";
+  bool isFavorited = false;
   var url =
       "https://www.bing.com/images/search?view=detailV2&ccid=vx9%2fIUj5&id=3B7650A146D55682645F765E60E786419299154C&thid=OIP.vx9_IUj50utS7cbaiRtoZAHaE8&mediaurl=https%3a%2f%2fst3.depositphotos.com%2f1186248%2f14351%2fi%2f950%2fdepositphotos_143511907-stock-photo-not-available-rubber-stamp.jpg&exph=682&expw=1023&q=not+available&simid=608054098357136066&FORM=IRPRST&ck=BADF0353AC59677CCFAA67227357E3CB&selectedIndex=1&ajaxhist=0&ajaxserp=0";
   @override
   void initState() {
     super.initState();
     if (widget.d != null && widget.d["items"] != null && widget.d["items"].isNotEmpty) {
-      getpagecount();
+      
       getdesc();
-      getpubdate();
-      getlang();
-      getrating();
+      
+      
+      
       geturl();
     }
   }
@@ -52,35 +49,9 @@ class _bookdisplayState extends State<bookdisplay> {
     }
   }
 
-  void getlang() {
-    try {
-      if (widget.d["items"] != null && widget.d["items"].isNotEmpty) {
-        var language = widget.d["items"][0]["volumeInfo"]["language"];
-        if (language != null) {
-          setState(() {
-            lang = language.toString().toUpperCase();
-          });
-        }
-      }
-    } catch (e) {
-      print("Error fetching language: $e");
-    }
-  }
+  
 
-  void getpubdate() {
-    try {
-      if (widget.d["items"] != null && widget.d["items"].isNotEmpty) {
-        var publishedDate = widget.d["items"][0]["volumeInfo"]["publishedDate"];
-        if (publishedDate != null) {
-          setState(() {
-            pubdate = publishedDate.toString();
-          });
-        }
-      }
-    } catch (e) {
-      print("Error fetching published date: $e");
-    }
-  }
+  
 
   void getdesc() {
     try {
@@ -97,35 +68,9 @@ class _bookdisplayState extends State<bookdisplay> {
     }
   }
 
-  void getpagecount() {
-    try {
-      if (widget.d["items"] != null && widget.d["items"].isNotEmpty) {
-        var pageCount = widget.d["items"][0]["volumeInfo"]["pageCount"];
-        if (pageCount != null) {
-          setState(() {
-            pagecount = pageCount.toString();
-          });
-        }
-      }
-    } catch (e) {
-      print("Error fetching page count: $e");
-    }
-  }
+ 
 
-  void getrating() {
-    try {
-      if (widget.d["items"] != null && widget.d["items"].isNotEmpty) {
-        var averageRating = widget.d["items"][0]["volumeInfo"]["averageRating"];
-        if (averageRating != null) {
-          setState(() {
-            rating = averageRating.toString();
-          });
-        }
-      }
-    } catch (e) {
-      print("Error fetching rating: $e");
-    }
-  }
+  
 
   Future openfile(var url, var title) async {
     final file = await downloadfile(url, title!);
@@ -140,14 +85,14 @@ class _bookdisplayState extends State<bookdisplay> {
   Future<i.File?> downloadfile(var url, var filename) async {
     try {
       var appstorage = await getApplicationDocumentsDirectory();
-      // ignore: unused_local_variable
+      
       final file = i.File('${appstorage.path}/filename');
       final Response = await Dio().get(url,
           options: Options(
             responseType: ResponseType.bytes,
             followRedirects: false,
             receiveTimeout: Duration(milliseconds: 1000),
-            // receiveTimeout: Duration(milliseconds: 30000),
+            
           ));
       final raf = file.openSync(mode: i.FileMode.write);
       raf.writeFromSync(Response.data);
@@ -165,12 +110,13 @@ class _bookdisplayState extends State<bookdisplay> {
       backgroundColor: Color(0xfff012ac0),
       floatingActionButton: Padding(
         padding: const EdgeInsets.symmetric(vertical: 25.0),
-        child: ElevatedButton(
+        child: 
+        ElevatedButton(
           onPressed: () async {
             await launchUrl(
                 Uri.parse(widget.d["items"][0]["accessInfo"]["webReaderLink"]));
           },
-          //splashColor: Colors.grey,
+          
           //color: Colors.black,
           child: Text(
             "READ BOOK",
@@ -186,11 +132,7 @@ class _bookdisplayState extends State<bookdisplay> {
               padding:
               const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
               child: Container(
-                /*decoration: BoxDecoration(
-                    image: DecorationImage(
-                        opacity: 0.4,
-                        image: AssetImage("assets/overlay.png"),
-                        fit: BoxFit.cover)),*/
+                
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -239,11 +181,7 @@ class _bookdisplayState extends State<bookdisplay> {
             Expanded(
                 flex: 3,
                 child: Container(
-                  /*decoration: BoxDecoration(
-                      image: DecorationImage(
-                          opacity: 0.4,
-                          //image: AssetImage("assets/overlay.png"),
-                          fit: BoxFit.cover))*/
+                  
                   child: Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -279,91 +217,20 @@ class _bookdisplayState extends State<bookdisplay> {
                         SizedBox(
                           height: 20,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Column(
-                              children: [
-                                Text(
-                                    "Rating",
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        color: Colors.grey[400])),
-
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                    rating,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15,
-                                        color: Colors.white)),
-
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                Text(
-                                    "Pages",
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        color: Colors.grey[400])),
-
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                    pagecount,
-                                    style:  TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15,
-                                        color: Colors.white)),
-
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                Text(
-                                    "Language",
-                                    style:  TextStyle(
-                                        fontSize: 15,
-                                        color: Colors.grey[400])),
-
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                    lang,
-                                    style:  TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15,
-                                        color: Colors.white)),
-
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                Text(
-                                    "Publish date",
-                                    style:  TextStyle(
-                                        fontSize: 15,
-                                        color: Colors.grey[400])),
-
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                    pubdate.toUpperCase(),
-                                    style:  TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 13,
-                                        color: Colors.white)),
-
-                              ],
-                            ),
-                          ],
-                        )
+                        IconButton(
+                        icon: Icon(
+                             isFavorited ? Icons.favorite : Icons.favorite_border,
+                             color: isFavorited ? Colors.red : Colors.grey,
+                        ),
+                        onPressed: () {
+                            setState(() {
+                                 isFavorited = !isFavorited;
+                            });
+                        },
+                       //iconSize: 100.0,
+                       ),
+                        
+                        
                       ],
                     ),
                   ),

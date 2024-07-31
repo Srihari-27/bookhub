@@ -19,20 +19,20 @@ class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
-  //final TextEditingController newnameController = TextEditingController();
+  
   final AuthService authService = AuthService();
 
   void update1(String a) {
-    //print('success in frontend');
+    
     authService.update1(
-      //print('success in frontend login'),
+      
 
       context: context,
       email: emailController.text,
       password: passwordController.text,
       name: nameController.text,
       id: a,
-      //newname:a,
+      
     );
   }
   void delete1(String a){
@@ -96,9 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child:Text('Delete'),
           ),
 
-          //Text(user.id),
-          // Text(user.email),
-          // Text(user.name),
+          
           ElevatedButton(
             onPressed: () => signOutUser(context),
             style: ButtonStyle(
