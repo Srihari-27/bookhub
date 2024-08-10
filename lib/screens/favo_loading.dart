@@ -1,3 +1,5 @@
+/*import 'dart:ffi';
+import 'dart:convert';
 import 'package:bookhub/screens/bookloading.dart';
 import 'package:bookhub/screens/error.dart';
 import 'package:flutter/material.dart';
@@ -5,23 +7,26 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bookhub/services/auth_services.dart';
+import 'package:http/http.dart';
 
-class searchfilter extends StatefulWidget {
-  var d;
-  var email;
-  searchfilter({@required this.d,@required this.email});
+class searchfav extends StatefulWidget {
+  var c;
+  //var email;
+  searchfav({required this.c});
+  //var d = jsonDecode(c.body);
+  //var d= s[0];
  // fav({required this.d});
 
   @override
-  State<searchfilter> createState() => _searchfilterState();
+  State<searchfav> createState() => _searchfavState();
 }
 
-class _searchfilterState extends State<searchfilter> {
+class _searchfavState extends State<searchfav> {
   final AuthService authService = AuthService();
   var i;
   bool isPressed =false;
   
-  void fav(Map d) {
+  /*void fav(Map d) {
     print("yes11");
     print(d);
     print(widget.email);
@@ -31,14 +36,22 @@ class _searchfilterState extends State<searchfilter> {
         liked: d,
         email: widget.email ?? '', 
     );
-  }
+}*/
   
-
+  //var d= widget.s[0];
+  //late var d;
+  //var d = jsonDecode(widget.c.body);
+  var d;
+  void initState() {
+    d = jsonDecode(widget.c.body);
+    super.initState();
+    print(d);
+  }
   geti(int index) {
     try {
       setState(() {
         print('working in searchfilter true');
-        i = widget.d["items"][index + 1]["volumeInfo"]["industryIdentifiers"]
+        i = d["items"][index + 1]["volumeInfo"]["industryIdentifiers"]
         [0]["identifier"];
       });
     } catch (e) {
@@ -62,11 +75,7 @@ class _searchfilterState extends State<searchfilter> {
     return ans + "...";
   }
 
-  @override
-  void initState() {
-    
-    super.initState();
-  }
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +104,7 @@ class _searchfilterState extends State<searchfilter> {
                       ),
                     ),
                     Text(
-                      "RESULT",
+                      "FAVOURITES",
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -117,8 +126,8 @@ class _searchfilterState extends State<searchfilter> {
             ),
             Expanded(
               child: ListView.builder(
-                  itemCount: widget.d["items"].length ,
-                  itemBuilder: (context, index) {
+                  itemCount : d["items"].length - 1,
+                  itemBuilder : (context, index) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 15.0, vertical: 10),
@@ -138,13 +147,13 @@ class _searchfilterState extends State<searchfilter> {
                              decoration: BoxDecoration(
                              borderRadius: BorderRadius.circular(10),
                              image: DecorationImage(
-                                  image: widget.d != null &&
-                                  widget.d["items"] != null &&
-                                  widget.d["items"].length > index + 1 &&
-                                  widget.d["items"][index + 1]["volumeInfo"] != null &&
-                                  widget.d["items"][index + 1]["volumeInfo"]["imageLinks"] != null &&
-                                  widget.d["items"][index + 1]["volumeInfo"]["imageLinks"]["thumbnail"] != null
-                                  ? NetworkImage(widget.d["items"][index + 1]["volumeInfo"]["imageLinks"]["thumbnail"])
+                                  image: d != null &&
+                                  d["items"] != null &&
+                                  d["items"].length > index + 1 &&
+                                  d["items"][index + 1]["volumeInfo"] != null &&
+                                  d["items"][index + 1]["volumeInfo"]["imageLinks"] != null &&
+                                  d["items"][index + 1]["volumeInfo"]["imageLinks"]["thumbnail"] != null
+                                  ? NetworkImage(d["items"][index + 1]["volumeInfo"]["imageLinks"]["thumbnail"])
                                   :AssetImage('assets/placeholder.jpg'), // Fallback image in case of null
                                   fit: BoxFit.cover,
                                   ),
@@ -163,13 +172,13 @@ class _searchfilterState extends State<searchfilter> {
                                   child: Text(
                                     
 
-                                    (widget.d["items"][index + 1]["volumeInfo"]
+                                    (d["items"][index + 1]["volumeInfo"]
                                     ["title"])
                                         .length >
                                         20
-                                        ? st(widget.d["items"][index + 1]
+                                        ? st(d["items"][index + 1]
                                     ["volumeInfo"]["title"])
-                                        : widget.d["items"][index + 1]
+                                        : d["items"][index + 1]
                                     ["volumeInfo"]["title"],
                                     overflow: TextOverflow.ellipsis,
                                     style:  TextStyle(
@@ -183,15 +192,15 @@ class _searchfilterState extends State<searchfilter> {
                                 ),
                                 Flexible(
                                   child: Text(
-                                    (widget.d["items"][index + 1]["volumeInfo"]
+                                    (d["items"][index + 1]["volumeInfo"]
                                     ["authors"][0])
                                         .length >
                                         20
                                         ? "by " +
-                                        st(widget.d["items"][index + 1]
+                                        st(d["items"][index + 1]
                                         ["volumeInfo"]["authors"][0])
                                         : "by " +
-                                        widget.d["items"][index + 1]
+                                        d["items"][index + 1]
                                         ["volumeInfo"]["authors"][0],
                                     overflow: TextOverflow.ellipsis,
                                     style:  TextStyle(
@@ -229,7 +238,7 @@ class _searchfilterState extends State<searchfilter> {
                                      ),
                                      iconSize: 50.0,
                                      onPressed: (){
-                                      fav(widget.d);
+                                      //fav(widget.d);
                                      },
                                 ),
 
@@ -247,4 +256,4 @@ class _searchfilterState extends State<searchfilter> {
       ),
     ));
   }
-} 
+}*/

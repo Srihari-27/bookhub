@@ -8,8 +8,9 @@ class User {
   final String token;
   final String password;
   final String forgotpass;
+  final List liked;
   User({
-    required this.forgotpass, required this.id, required this.name, required this.email, required this.token, required this.password,
+    required this.forgotpass, required this.id, required this.name, required this.email, required this.token, required this.password, required this.liked
     
   });
 
@@ -19,8 +20,9 @@ class User {
       'email': email,
       'token': token,
       'password': password,
-      //'id':id,
+      
       'forgotpass': forgotpass,
+      'liked': liked
       
     };
   }
@@ -32,7 +34,8 @@ class User {
       email: map['email'] ?? '',
       token: map['token'] ?? '',
       password: map['password'] ?? '',
-      forgotpass: map['forgotpass'] ?? ''
+      forgotpass: map['forgotpass'] ?? '',
+      liked: List<String>.from(map['liked'] ?? [])
 
     );
   }

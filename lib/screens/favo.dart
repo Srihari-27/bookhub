@@ -1,4 +1,4 @@
-import 'dart:io' as i;
+/*import 'dart:io' as i;
 import 'package:bookhub/screens/homescreen.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -10,15 +10,15 @@ import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class bookdisplay extends StatefulWidget {
-  var d;
-  bookdisplay({@required this.d});
+class favbookdisplay extends StatefulWidget {
+  var  d;
+  favbookdisplay({required this.d});
 
   @override
-  State<bookdisplay> createState() => _bookdisplayState();
+  State<favbookdisplay> createState() => _favbookdisplayState();
 }
 
-class _bookdisplayState extends State<bookdisplay> {
+class _favbookdisplayState extends State<favbookdisplay> {
   var desc = "Not available";
   bool isFavorited = false;
   var url =
@@ -154,7 +154,7 @@ class _bookdisplayState extends State<bookdisplay> {
                           textStyle:
                           TextStyle(color: Colors.white, fontSize: 16)),
                     ),
-                    /*GestureDetector(
+                    GestureDetector(
                       onTap: () async {
                         try {
                           var url = widget.d["items"][0]["accessInfo"]["epub"]
@@ -173,7 +173,7 @@ class _bookdisplayState extends State<bookdisplay> {
                         color: Colors.white,
                         size: 30,
                       ),
-                    )*/
+                    )
                   ],
                 ),
               ),
@@ -227,7 +227,7 @@ class _bookdisplayState extends State<bookdisplay> {
                                  isFavorited = !isFavorited;
                             });
                         },
-                       
+                       //iconSize: 100.0,
                        ),
                         
                         
@@ -275,4 +275,4 @@ class _bookdisplayState extends State<bookdisplay> {
       ),
     ));
   }
-}
+}*/

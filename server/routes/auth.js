@@ -61,6 +61,7 @@ authRouter.post("/api/signin", async (req, res) => {
   }
 });
 
+
 authRouter.post("/tokenIsValid", async (req, res) => {
   try {
     const token = req.header("x-auth-token");
@@ -87,7 +88,6 @@ authRouter.post('/api/update', async (req, res) => {
   console.log( name, password, email,id )
   try {
     const user = await User.findOne({ _id: id });
-
     if(!id){
       console.log("hi");
       return res.status(404).send("please enter id");
@@ -192,5 +192,56 @@ authRouter.post("/api/forgot", async (req, res) => {
     res.status(500).json({ error: e.message });
   }
 })
+
+authRouter.post('/api/fav', async (req, res) => {
+  const { email, liked } = req.body;
+  console.log(email, liked);
+
+  try {
+    const user = await User.findOne({ email: email });
+
+    if (!email) {
+      console.log("hi");
+      return res.status(404).send("please enter email");
+    }
+
+    if (liked) {
+      console.log(liked);
+      user.liked.push(liked);
+    }
+
+    await user.save();
+    return res.send('favourites added in database');
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
+authRouter.get('/api/fav2', async (req, res) => {
+  const email = req.query.email;
+
+  if (!email) {
+    return res.status(400).send('Email query parameter is required');
+  }
+
+  try {
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+
+    
+    user.liked.forEach((likedItem, index) => {
+      console.log(`Liked item ${index + 1}:`, likedItem); 
+    });
+
+    res.json({ liked: user.liked });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
+})
+
 
 module.exports = authRouter;

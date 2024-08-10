@@ -7,8 +7,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:http/http.dart';
 
 class searchloading extends StatefulWidget {
-  var text;
-  searchloading({@required this.text});
+  var text,email;
+  searchloading({@required this.text, @required this.email});
 
   @override
   State<searchloading> createState() => _searchloadingState();
@@ -32,11 +32,12 @@ class _searchloadingState extends State<searchloading> {
     );
 
     cp = jsonDecode(r.body);
+    print("life mukiyum bigullu");
     print(cp);
     print('working in search_loading11');
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       print('working in search_loading');
-      return searchfilter(d: cp);
+      return searchfilter(d: cp,email:widget.email);
     }));
     return;
   }

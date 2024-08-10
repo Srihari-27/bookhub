@@ -20,9 +20,7 @@ class _SignupScreenState extends State<SignupScreen> {
   void signupUser() {
     print('success in frontend');
     authService.signUpUser(
-      
       forgotpass:forgotpassController.text,
-
       context: context,
       email: emailController.text,
       password: passwordController.text,

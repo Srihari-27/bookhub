@@ -30,8 +30,6 @@ class _bookloadingState extends State<bookloading> {
       Response r = await get(Uri.parse(
           "https://www.googleapis.com/books/v1/volumes?q=isbn:${widget.c}&key=AIzaSyAqxw3nnCxwNQXRmXb-ZFi8FTNyhz6kwGA"));
       c2 = jsonDecode(r.body);
-      print("m");
-      print(c2);
       Navigator.push(context, MaterialPageRoute(builder: (context) {
         return bookdisplay(d: c2);
       }));

@@ -19,20 +19,17 @@ class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
-  
   final AuthService authService = AuthService();
+  
 
   void update1(String a) {
     
     authService.update1(
-      
-
       context: context,
       email: emailController.text,
       password: passwordController.text,
       name: nameController.text,
       id: a,
-      
     );
   }
   void delete1(String a){
@@ -98,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
           
           ElevatedButton(
-            onPressed: () => signOutUser(context),
+            onPressed : () => signOutUser(context),
             style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all(Colors.blue),
               textStyle: WidgetStateProperty.all(

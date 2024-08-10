@@ -5,7 +5,7 @@ import 'package:bookhub/models/users.dart';
 import 'package:bookhub/providers/users_provider.dart';
 import 'package:bookhub/screen/home_screen.dart';
 import 'package:bookhub/screen/signup.dart';
-import 'package:bookhub/utils/constants.dart';
+
 import 'package:bookhub/utils/utils.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
@@ -27,7 +27,8 @@ class AuthService {
         password: password,
         email: email,
         token: '',
-        forgotpass: forgotpass
+        forgotpass: forgotpass,
+        liked : []
       );
       print('connected with signup user');
 
@@ -81,6 +82,7 @@ class AuthService {
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
+      //print(email);
 
       if (context.mounted) {
         httpErrorHandle(
@@ -91,9 +93,10 @@ class AuthService {
             userProvider.setUser(res.body);
             await prefs.setString('x-auth-token', jsonDecode(res.body)['token']);
             if (context.mounted) {
+              //print(email);
               Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
-                  builder: (context) =>  homescreen(),
+                  builder: (context) =>  homescreen(email),
                 ),
                 (route) => false,
               );
@@ -180,6 +183,7 @@ class AuthService {
         password: password,
         email: email,
         token: '',
+        liked: []
       );
       
       final res = await http.post(
@@ -222,8 +226,7 @@ class AuthService {
     required BuildContext context,
     required String id
     }) async {
-     // User user =User()
-    //final String _id = _idController.text;
+    
 
     if (id.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -232,7 +235,7 @@ class AuthService {
       return;
     }
 
-    final url = 'http://10.0.2.2:3000/api/delete'; // Replace with your server IP
+    final url = 'http://10.0.2.2:3000/api/delete'; 
     final response = await http.delete(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
@@ -293,4 +296,43 @@ class AuthService {
       }
     }
   }
+ 
+  
+Future<void> favourites1({
+  required BuildContext context,
+  required Map liked,
+  required String email,
+}) async {
+  try {
+    final res = await http.post(
+      Uri.parse('http://10.0.2.2:3000/api/fav'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'liked': jsonEncode(liked), // Encode the map to a JSON string
+        'email': email,
+      }),
+    );
+
+    if (context.mounted) {
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          showSnackBar(
+            context,
+            'liked updated! Login with the same credentials!',
+          );
+        },
+      );
+    }
+  } catch (e) {
+    if (context.mounted) {
+      showSnackBar(context, e.toString());
+    }
+  }
+}
+
+
 }

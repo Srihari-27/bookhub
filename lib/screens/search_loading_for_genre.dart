@@ -7,8 +7,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:http/http.dart';
 
 class searchloading_genre extends StatefulWidget {
-  var text;
-  searchloading_genre({@required this.text});
+  var text,email;
+  searchloading_genre({@required this.text,@required this.email});
 
   @override
   State<searchloading_genre> createState() => _searchloading_genreState();
@@ -34,7 +34,7 @@ class _searchloading_genreState extends State<searchloading_genre> {
     cp = jsonDecode(r.body);
     print(cp);
     Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return searchfilter(d: cp);
+      return searchfilter(d: cp,email:widget.email);
     }));
     return;
   }
